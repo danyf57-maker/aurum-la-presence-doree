@@ -5,6 +5,8 @@ import App from './App';
 import { BetaLanding } from './components/BetaLanding';
 import { BetaThankYou } from './components/BetaThankYou';
 import { BetaAdmin } from './components/BetaAdmin';
+import AuthLogin from './components/AuthLogin';
+import AuthSignup from './components/AuthSignup';
 
 const rootElement = document.getElementById('root');
 const path = window.location.pathname;
@@ -19,6 +21,10 @@ if (rootElement) {
     element = <BetaThankYou />;
   } else if (path.startsWith('/beta')) {
     element = <BetaLanding />;
+  } else if (path === '/connexion') {
+    element = <AuthLogin />;
+  } else if (path === '/inscription') {
+    element = <AuthSignup />;
   } else {
     element = <App />;
   }
