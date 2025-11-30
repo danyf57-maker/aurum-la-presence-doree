@@ -1,0 +1,7 @@
+{
+  "name": "Aurum - La Présence Dorée",
+  "description": "An AI-powered introspective journaling space that helps you understand your emotions through a soft, non-judgmental presence.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
