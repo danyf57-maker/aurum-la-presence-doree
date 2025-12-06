@@ -7,6 +7,9 @@ export enum AppState {
   HISTORY = 'HISTORY', // New state for viewing history
 }
 
+// Chat roles
+export type Role = 'user' | 'model';
+
 export interface EmotionalPattern {
   name: string;
   description: string;
@@ -30,6 +33,6 @@ export interface JournalEntry {
 
 export interface Message {
   id: string;
-  role: 'user' | 'model';
+  role: Role;
   text: string;
 }

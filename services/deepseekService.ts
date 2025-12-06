@@ -1,5 +1,8 @@
 // services/deepseekService.ts
 
+// DeepSeek-V3.2 : identifiant explicite pour toutes les requêtes
+const DEEPSEEK_MODEL = "deepseek-v3.2";
+
 const FALLBACK_DEMO_TEXT =
   "Aurum ne peut pas se connecter à l’IA pour le moment. " +
   "Je reste quand même avec toi, écris ce que tu ressens.";
@@ -18,7 +21,11 @@ export async function askDeepseek(prompt: string): Promise<string> {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ prompt }),
+      body: JSON.stringify({
+        prompt,
+        // DeepSeek-V3.2 : modèle forcé côté proxy Aurum
+        model: DEEPSEEK_MODEL,
+      }),
     });
 
     if (!response.ok) {
@@ -35,6 +42,18 @@ export async function askDeepseek(prompt: string): Promise<string> {
       data?.text && typeof data.text === "string"
         ? data.text
         : FALLBACK_DEMO_TEXT;
+
+    try {
+      const usedModel =
+        (data as any)?.model ??
+        (data as any)?.usage?.model ??
+        (data as any)?.response?.model;
+      if (usedModel) {
+        console.debug("[DeepSeek] Model used by API:", usedModel);
+      }
+    } catch {
+      // on ignore silencieusement si le format de réponse change
+    }
 
     return text;
   } catch (error) {

@@ -1,7 +1,9 @@
 
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './App';
+import { HomePage } from './pages/HomePage';
+import { ChatPage } from './pages/ChatPage';
+import { LegalPage } from './pages/LegalPage';
 import { BetaLanding } from './components/BetaLanding';
 import { BetaThankYou } from './components/BetaThankYou';
 import { BetaAdmin } from './components/BetaAdmin';
@@ -19,7 +21,11 @@ if (rootElement) {
   const root = createRoot(rootElement);
   let element: JSX.Element;
 
-  if (path === '/admin/login' || path.startsWith('/admin/login/')) {
+  if (path === '/chat') {
+    element = <ChatPage />;
+  } else if (path === '/legal') {
+    element = <LegalPage />;
+  } else if (path === '/admin/login' || path.startsWith('/admin/login/')) {
     element = <AdminLogin />;
   } else if (path.startsWith('/admin/beta')) {
     element = <BetaAdmin />;
@@ -32,7 +38,7 @@ if (rootElement) {
   } else if (path === '/inscription') {
     element = <AuthSignup />;
   } else {
-    element = <App />;
+    element = <HomePage />;
   }
 
   root.render(

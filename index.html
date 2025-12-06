@@ -4,32 +4,273 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Aurum</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet" />
     <style>
       body {
-        font-family: 'Inter', sans-serif;
-        background-color: #FDFBF7; /* Soft Ivory */
-        color: #5C554B; /* Deep Warm Grey */
+        margin: 0;
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background-color: #fdf7ef; /* Soft Ivory */
+        color: #3a3a3a;
       }
-      h1, h2, h3, h4, h5, h6, .serif {
-        font-family: 'Cormorant Garamond', serif;
+      h1, h2, h3, h4 {
+        font-family: "Cormorant Garamond", "Times New Roman", serif;
       }
-      /* Custom Scrollbar for a premium feel */
-      ::-webkit-scrollbar {
-        width: 6px;
+      .aurum-shell {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 24px 16px 16px;
       }
-      ::-webkit-scrollbar-track {
+      .aurum-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        position: relative;
+      }
+      .aurum-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+      .aurum-header-title {
+        flex: 1;
+        text-align: center;
+        font-size: 24px;
+        letter-spacing: 0.06em;
+      }
+      .aurum-logout-btn {
+        border: none;
+        border-radius: 999px;
+        padding: 8px 18px;
+        background-color: #e5b66c;
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+        box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+        transition: background-color 0.2s ease, transform 0.2s ease;
+      }
+      .aurum-logout-btn:hover {
+        background-color: #d09d4d;
+        transform: translateY(-1px);
+      }
+      .aurum-main {
+        display: grid;
+        grid-template-columns: minmax(0, 2.2fr) minmax(260px, 1fr);
+        gap: 16px;
+        align-items: stretch;
+      }
+      .aurum-chat-layout {
+        display: flex;
+        gap: 16px;
+        position: relative;
+      }
+      .aurum-chat-main {
+        flex: 1;
+        min-width: 0;
+      }
+      .aurum-panel {
+        background-color: #fff;
+        border-radius: 24px;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
+        padding: 20px 24px;
+        box-sizing: border-box;
+        position: relative;
+      }
+      .aurum-panel-left-inner {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .aurum-scribe {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        color: #c8924f;
+        font-size: 14px;
+      }
+      .aurum-scribe-icon {
+        font-size: 20px;
+      }
+      .aurum-chat-history {
+        flex: 1;
+        overflow-y: auto;
+        padding-right: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        min-height: 320px;
+      }
+      .aurum-message-row {
+        display: flex;
+      }
+      .aurum-message-row.user {
+        justify-content: flex-end;
+      }
+      .aurum-message-row.aurum {
+        justify-content: flex-start;
+      }
+      .aurum-message-bubble {
+        max-width: 80%;
+        padding: 12px 16px;
+        border-radius: 18px;
+        font-size: 14px;
+        line-height: 1.5;
+        white-space: pre-wrap;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+      }
+      .aurum-message-bubble.user {
+        background-color: #f3e0c3;
+        border-bottom-right-radius: 4px;
+        color: #3a2c1c;
+      }
+      .aurum-message-bubble.aurum {
+        background-color: #f9f2e4;
+        border-bottom-left-radius: 4px;
+        color: #4b4135;
+      }
+      .aurum-pending {
+        font-style: italic;
+        opacity: 0.75;
+      }
+      .aurum-panel-right-title {
+        font-size: 20px;
+        margin-bottom: 8px;
+        color: #c8924f;
+        letter-spacing: 0.04em;
+      }
+      .aurum-panel-right-text {
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 12px;
+        color: #5c5245;
+      }
+      .aurum-panel-right-email {
+        font-size: 13px;
+        color: #7a6a55;
+      }
+      .aurum-divider-vertical {
+        position: absolute;
+        top: 14%;
+        bottom: 18%;
+        left: calc(100% * 2.2 / 3.2);
+        width: 1px;
+        background: linear-gradient(to bottom, transparent, #e5b66c, transparent);
+        pointer-events: none;
+      }
+      .aurum-golden-thread {
+        width: 32%;
+        min-width: 260px;
+        background-color: #fffaf3;
+        border-radius: 24px;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
+        padding: 20px 24px;
+        box-sizing: border-box;
+        border-left: 1px solid #e5d0a8;
+      }
+      .aurum-golden-thread-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+      .aurum-golden-thread-toggle {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        background: #e5b66c;
+        color: #fff;
+        border: none;
+        border-radius: 999px;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        cursor: pointer;
+      }
+      .aurum-composer {
+        margin-top: 10px;
+      }
+      .aurum-composer-inner {
+        background-color: #fff;
+        border-radius: 24px;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
+        padding: 10px 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .aurum-input {
+        flex: 1;
+        border: none;
+        outline: none;
+        resize: none;
+        font-size: 14px;
+        font-family: inherit;
+        min-height: 40px;
+        max-height: 140px;
         background: transparent;
+        color: #3a3a3a;
       }
-      ::-webkit-scrollbar-thumb {
-        background: #E5D0A8;
-        border-radius: 10px;
+      .aurum-send-btn {
+        width: 42px;
+        height: 42px;
+        border-radius: 999px;
+        border: none;
+        background-color: #e5b66c;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 16px;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
       }
-      .aurum-glow {
-        box-shadow: 0 0 60px 20px rgba(229, 208, 168, 0.3);
+      .aurum-send-btn:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+      .aurum-footer {
+        margin-top: 6px;
+        font-size: 12px;
+        text-align: center;
+        color: #7a6a55;
+      }
+      .aurum-footer a {
+        color: #7a6a55;
+        text-decoration: underline;
+      }
+      @media (max-width: 768px) {
+        .aurum-shell {
+          padding: 16px 10px 10px;
+        }
+        .aurum-main {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .aurum-divider-vertical {
+          display: none;
+        }
+        .aurum-golden-thread {
+          position: fixed;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          width: auto;
+          min-width: 0;
+          z-index: 30;
+          border-radius: 0;
+          border-left: none;
+          box-shadow: 0 0 0 rgba(0,0,0,0);
+        }
       }
     </style>
   <script type="importmap">
